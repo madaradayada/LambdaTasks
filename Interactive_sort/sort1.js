@@ -2,10 +2,12 @@ const readline = require('readline')
 const input = process.stdin
 const output = process.stdout
 
+
+
 const selectOption = {}
 
 selectOption.selectIndex = 0
-selectOption.options = ['mango', 'banana', 'apple', 'orange']
+selectOption.options = ['Words by name (form A to Z)', 'Show digits from the smallest', 'Show digits from the bigest', 'Words by quantity of leters', 'Only unique words']
 selectOption.selector = '*'
 selectOption.isFirstTimeShowMenu = true
 
