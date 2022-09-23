@@ -1,34 +1,26 @@
 const readline = require('readline');
 
 function sortWordsAsk(input) {
-  /**
-   * Get rid of numbers.
-   */
-  const words = input.split(' ');
+  const values = input.split(' ');
+  const words = values.filter((value) => !Number(value));
   return words.sort().join(' ');
 }
 
 function sortNumbersAsk(input) {
-  /**
-   * Get rid of words/letters.
-   */
-  const numbers = input.split(' ').map(Number);
+  const values = input.split(' ').map(Number);
+  const numbers = values.filter((value) => Number(value));
   return numbers.sort().join(' ');
 }
 
 function sortNumbersDesc(input) {
-  /**
-   * Get rid of words/letters.
-   */
-  const numbers = input.split(' ').map(Number);
+  const values = input.split(' ').map(Number);
+  const numbers = values.filter((value) => Number(value));
   return numbers.sort((a, b) => b - a).join(' ');
 }
 
 function sortWordsByLetters(input) {
-  /**
-   * Get rid of numbers.
-   */
-  const words = input.split(' ');
+  const values = input.split(' ');
+  const words = values.filter((value) => !Number(value));
   return words.sort((a, b) => a.length - b.length).join(' ');
 }
 
@@ -36,7 +28,6 @@ function getUniqueWords(input) {
   const values = input.split(' ');
   const words = values.filter((value) => !Number(value));
   const uniqueValues = new Set(words);
-
   return Array.from(uniqueValues).join(' ');
 }
 
