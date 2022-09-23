@@ -1,55 +1,174 @@
-/**
- * Import necessary native modules.
- */
 const readline = require('readline');
 
+function sortWordsAsk(input) {
+  let words;
+  words = input.split().sort();
+  console.log(words);
+}
+
+// const sortWordsAsk = input => input.split().sort((a, b) => a.localeCompare(b));
+
+// function sortNumbersAsk(input) {
+//   console.log('sortNumbersAsk WAS TRIGGERED ' + input);
+// }
+
+const sortNumbersAsk = input => input.split().sort((a,b) => a.localeCompare(b));
+
+// function sortNumbersDesc(input) {
+//   console.log('sortNumbersDesc WAS TRIGGERED ' + input);
+// }  
+
+const sortNumbersDesc = input => input.split().sort((a,b) => b.localeCompare(a));
+
+// function sortWordsByLetters(input) {
+//   console.log('sortWordsByLetters WAS TRIGGERED ' + input);
+// }
+
+const sortWordsByLetters = input => input.split().sort((a,b) => a.length - b.length);
+
+
+function getUniqueWords(input) {
+  let result = [];
+
+  for (let str of input) {
+    if (!result.includes(str)) {
+      result.push(str);
+    }
+  }
+  console.log(result);
+  // return result;
+
+}
+
+
+function getUniqueWordsNumbers(input) {
+  let result = [];
+
+  for (let str of input) {
+    if (!result.includes(str)) {
+      result.push(str);
+    }
+  }
+  console.log(result);
+  // return result;
+  console.log('getUniqueWordsNumbers WAS TRIGGERED ' + input);
+}
+
+const options = [
+  {
+    text: 'Words by name (form A to Z)',
+    method: sortWordsAsk,
+  },
+  {
+    text: 'Show digits from the smallest',
+    method: sortNumbersAsk,
+  },
+  {
+    text: 'Show digits from the bigest',
+    method: sortNumbersDesc,
+  },
+  {
+    text: 'Words by quantity of letters',
+    method: sortWordsByLetters,
+  },
+  {
+    text: 'Only unique words',
+    method: getUniqueWords,
+  },
+  {
+    text: 'only unique values from the entire set of words and numbers',
+    method: getUniqueWords,
+  },
+];
+
+function createIndexState() {
+  let selectedIndex = 0;
+
+  return {
+    getCurrentIndex: () => selectedIndex,
+    inc: () => (selectedIndex += 1),
+    dec: () => (selectedIndex -= 1),
+  };
+}
+
+function createOptionsRenderer(indexState, options) {
+  let initialRender = true;
+
+  return function () {
+    if (!initialRender) {
+      readline.moveCursor(process.stdout, -999, -options.length);
+      readline.clearScreenDown(process.stdout);
+    }
+
+    options.forEach((option, index) => {
+      const value = indexState.getCurrentIndex() === index ? `* ${option.text}` : option.text;
+      process.stdout.write(value + '\n');
+    });
+
+    initialRender = false;
+  };
+}
+
+function createKeyPressedHandler(indexState, options, callback) {
+  return function (_, key) {
+    if (key) {
+      switch (key.name) {
+        case 'up':
+          if (indexState.getCurrentIndex() !== 0) {
+            indexState.dec();
+            renderOptions();
+          }
+          break;
+        case 'down':
+          if (indexState.getCurrentIndex() !== options.length - 1) {
+            indexState.inc();
+            renderOptions();
+          }
+          break;
+        case 'return':
+          callback(options[indexState.getCurrentIndex()]);
+          break;
+      }
+    }
+  };
+}
+
+const indexState = createIndexState();
+const renderOptions = createOptionsRenderer(indexState, options);
+
 async function main() {
-  /**
-   * Create a readline object. Passing necessary arguments.
-   */
+  readline.cursorTo(process.stdout, 0, 0);
+  readline.clearScreenDown(process.stdout);
+
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
-  /**
-   * Create a promise to avoid using of callbacks.
-   */
   function question(query) {
     return new Promise((resolve) => {
       rl.question(query, resolve);
     });
   }
 
-  /**
-   * Ask a question - wait for an answer.
-   */
-  const input = await question('Type words or numbers:');
+  const input = await question('Type words or numbers: ');
 
-  /**
-   * Offer some options. Wait for selected one.
-   */
+  process.stdout.write(`What needs to be done?\n`);
+  process.stdout.write(`--------------------\n`);
 
-  /**
-   * Print result.
-   */
+  function onEnterHandler(selectedOperation) {
+    selectedOperation.method(input);
+  }
 
-  /**
-   * 'await question(''); -> if input is 'exit' -> rl.close();
-   */
+  const keyPressedHandler = createKeyPressedHandler(indexState, options, onEnterHandler);
 
-  /**
-   * Print the result.
-   */
-  console.log(`Answers: ${input}`);
+  process.stdin.setRawMode(true);
+  process.stdin.resume();
+  process.stdin.on('keypress', keyPressedHandler);
 
-  /**
-   * Close cli.
-   */
-  rl.close();
+  renderOptions();
+
+  // rl.close();
 }
 
-/**
- * Run main function.
- */
 main();
