@@ -1,57 +1,50 @@
 const readline = require('readline');
 
 function sortWordsAsk(input) {
-  let words;
-  words = input.split().sort();
-  console.log(words);
+  /**
+   * Get rid of numbers.
+   */
+  const words = input.split(' ');
+  return words.sort().join(' ');
 }
 
-// const sortWordsAsk = input => input.split().sort((a, b) => a.localeCompare(b));
+function sortNumbersAsk(input) {
+  /**
+   * Get rid of words/letters.
+   */
+  const numbers = input.split(' ').map(Number);
+  return numbers.sort().join(' ');
+}
 
-// function sortNumbersAsk(input) {
-//   console.log('sortNumbersAsk WAS TRIGGERED ' + input);
-// }
+function sortNumbersDesc(input) {
+  /**
+   * Get rid of words/letters.
+   */
+  const numbers = input.split(' ').map(Number);
+  return numbers.sort((a, b) => b - a).join(' ');
+}
 
-const sortNumbersAsk = input => input.split().sort((a,b) => a.localeCompare(b));
-
-// function sortNumbersDesc(input) {
-//   console.log('sortNumbersDesc WAS TRIGGERED ' + input);
-// }  
-
-const sortNumbersDesc = input => input.split().sort((a,b) => b.localeCompare(a));
-
-// function sortWordsByLetters(input) {
-//   console.log('sortWordsByLetters WAS TRIGGERED ' + input);
-// }
-
-const sortWordsByLetters = input => input.split().sort((a,b) => a.length - b.length);
-
+function sortWordsByLetters(input) {
+  /**
+   * Get rid of numbers.
+   */
+  const words = input.split(' ');
+  return words.sort((a, b) => a.length - b.length).join(' ');
+}
 
 function getUniqueWords(input) {
-  let result = [];
+  const values = input.split(' ');
+  const words = values.filter((value) => !Number(value));
+  const uniqueValues = new Set(words);
 
-  for (let str of input) {
-    if (!result.includes(str)) {
-      result.push(str);
-    }
-  }
-  console.log(result);
-  // return result;
-
+  return Array.from(uniqueValues).join(' ');
 }
 
+function getUniqueValues(input) {
+  const values = input.split(' ');
+  const uniqueValues = new Set(values);
 
-function getUniqueWordsNumbers(input) {
-  let result = [];
-
-  for (let str of input) {
-    if (!result.includes(str)) {
-      result.push(str);
-    }
-  }
-  console.log(result);
-  // return result;
-  console.log('getUniqueWordsNumbers WAS TRIGGERED ' + input);
+  return Array.from(uniqueValues).join(' ');
 }
 
 const options = [
@@ -76,8 +69,8 @@ const options = [
     method: getUniqueWords,
   },
   {
-    text: 'only unique values from the entire set of words and numbers',
-    method: getUniqueWords,
+    text: 'Only unique values from the entire set of words and numbers',
+    method: getUniqueValues,
   },
 ];
 
@@ -153,11 +146,17 @@ async function main() {
 
   const input = await question('Type words or numbers: ');
 
+  if (input === 'exit') {
+    process.exit();
+  }
+
   process.stdout.write(`What needs to be done?\n`);
   process.stdout.write(`--------------------\n`);
 
   function onEnterHandler(selectedOperation) {
-    selectedOperation.method(input);
+    const result = selectedOperation.method(input);
+
+    process.stdout.write(result + '\n');
   }
 
   const keyPressedHandler = createKeyPressedHandler(indexState, options, onEnterHandler);
@@ -167,8 +166,6 @@ async function main() {
   process.stdin.on('keypress', keyPressedHandler);
 
   renderOptions();
-
-  // rl.close();
 }
 
 main();
