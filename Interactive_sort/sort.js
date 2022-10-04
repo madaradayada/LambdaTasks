@@ -1,66 +1,66 @@
-const readline = require('readline');
+const readline = require("readline");
 
 function sortWordsAsk(input) {
-  const values = input.split(' ');
+  const values = input.split(" ");
   const words = values.filter((value) => !Number(value));
-  return words.sort().join(' ');
+  return words.sort().join(" ");
 }
 
 function sortNumbersAsk(input) {
-  const values = input.split(' ').map(Number);
+  const values = input.split(" ").map(Number);
   const numbers = values.filter((value) => Number(value));
-  return numbers.sort().join(' ');
+  return numbers.sort().join(" ");
 }
 
 function sortNumbersDesc(input) {
-  const values = input.split(' ').map(Number);
+  const values = input.split(" ").map(Number);
   const numbers = values.filter((value) => Number(value));
-  return numbers.sort((a, b) => b - a).join(' ');
+  return numbers.sort((a, b) => b - a).join(" ");
 }
 
 function sortWordsByLetters(input) {
-  const values = input.split(' ');
+  const values = input.split(" ");
   const words = values.filter((value) => !Number(value));
-  return words.sort((a, b) => a.length - b.length).join(' ');
+  return words.sort((a, b) => a.length - b.length).join(" ");
 }
 
 function getUniqueWords(input) {
-  const values = input.split(' ');
+  const values = input.split(" ");
   const words = values.filter((value) => !Number(value));
   const uniqueValues = new Set(words);
-  return Array.from(uniqueValues).join(' ');
+  return Array.from(uniqueValues).join(" ");
 }
 
 function getUniqueValues(input) {
-  const values = input.split(' ');
+  const values = input.split(" ");
   const uniqueValues = new Set(values);
 
-  return Array.from(uniqueValues).join(' ');
+  return Array.from(uniqueValues).join(" ");
 }
 
 const options = [
   {
-    text: 'Words by name (form A to Z)',
+    text: "Words by name (form A to Z)",
     method: sortWordsAsk,
   },
   {
-    text: 'Show digits from the smallest',
+    text: "Show digits from the smallest",
     method: sortNumbersAsk,
   },
   {
-    text: 'Show digits from the bigest',
+    text: "Show digits from the bigest",
     method: sortNumbersDesc,
   },
   {
-    text: 'Words by quantity of letters',
+    text: "Words by quantity of letters",
     method: sortWordsByLetters,
   },
   {
-    text: 'Only unique words',
+    text: "Only unique words",
     method: getUniqueWords,
   },
   {
-    text: 'Only unique values from the entire set of words and numbers',
+    text: "Only unique values from the entire set of words and numbers",
     method: getUniqueValues,
   },
 ];
@@ -85,8 +85,11 @@ function createOptionsRenderer(indexState, options) {
     }
 
     options.forEach((option, index) => {
-      const value = indexState.getCurrentIndex() === index ? `* ${option.text}` : option.text;
-      process.stdout.write(value + '\n');
+      const value =
+        indexState.getCurrentIndex() === index
+          ? `* ${option.text}`
+          : option.text;
+      process.stdout.write(value + "\n");
     });
 
     initialRender = false;
@@ -97,19 +100,19 @@ function createKeyPressedHandler(indexState, options, callback) {
   return function (_, key) {
     if (key) {
       switch (key.name) {
-        case 'up':
+        case "up":
           if (indexState.getCurrentIndex() !== 0) {
             indexState.dec();
             renderOptions();
           }
           break;
-        case 'down':
+        case "down":
           if (indexState.getCurrentIndex() !== options.length - 1) {
             indexState.inc();
             renderOptions();
           }
           break;
-        case 'return':
+        case "return":
           callback(options[indexState.getCurrentIndex()]);
           break;
       }
@@ -135,9 +138,9 @@ async function main() {
     });
   }
 
-  const input = await question('Type words or numbers: ');
+  const input = await question("Type words or numbers: ");
 
-  if (input === 'exit') {
+  if (input === "exit") {
     process.exit();
   }
 
@@ -147,16 +150,21 @@ async function main() {
   function onEnterHandler(selectedOperation) {
     const result = selectedOperation.method(input);
 
-    process.stdout.write(result + '\n');
+    process.stdout.write(result + "\n");
   }
 
-  const keyPressedHandler = createKeyPressedHandler(indexState, options, onEnterHandler);
+  const keyPressedHandler = createKeyPressedHandler(
+    indexState,
+    options,
+    onEnterHandler
+  );
 
   process.stdin.setRawMode(true);
   process.stdin.resume();
-  process.stdin.on('keypress', keyPressedHandler);
+  process.stdin.on("keypress", keyPressedHandler);
 
   renderOptions();
 }
 
 main();
+//
