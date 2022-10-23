@@ -19,7 +19,10 @@
   },
   "homepage": "https://github.com/madaradayada/LambdaTasks#readme",
   "dependencies": {
+    "fs": "^0.0.1-security",
+    "inquirer": "^8.2.4",
     "node-telegram-bot-api": "^0.59.0",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "statuses": "^2.0.1"
   }
 }
