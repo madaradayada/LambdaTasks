@@ -1,17 +1,25 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const { massage } = require("statuses");
+const { exit } = require("process");
+
 inquirer
   .prompt([
     {
-      type: "imput",
+      type: "input",
       message: "What`s the project title:",
       name: "title",
     },
     {
-      type: "imput",
+      type: "input",
       message: "ENTER the user`s name. To cancel press ENTER:",
       name: "user",
+      validate: (answer) => {
+        if (answer === "") {
+          console.log("Bay bay. See you next time");
+          process.exit();
+        }
+        return true;
+      },
     },
     {
       type: "list",
@@ -20,7 +28,7 @@ inquirer
       choices: ["male", "female"],
     },
     {
-      type: "imput",
+      type: "input",
       message: "ENTER your age:",
       name: "age",
     },
