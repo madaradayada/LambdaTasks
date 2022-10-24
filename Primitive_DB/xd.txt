@@ -1,1 +1,0 @@
-{name: ddzcasd, gender: female, age: 19}
