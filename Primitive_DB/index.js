@@ -26,6 +26,23 @@ async function main() {
      *
      * Show result
      */
+
+    const searchUser = await promisifyInquirer([
+      {
+        type: "input",
+        message: "ENTER a search name:",
+        name: "search",
+      },
+    ]);
+
+    const search = fs.readFileSync(FILE_NAME);
+    const searchParse = JSON.parse(search);
+    // const searchArray = Object.entries(searchParse);
+    // const filterSearch = searchArray.filter(
+    //   (searc) => searc.name === searchUser
+    // );
+    // console.log(filterSearch);
+    console.log(searchParse);
   }
 
   async function insertUser() {
