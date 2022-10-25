@@ -1,0 +1,28 @@
+{
+  "name": "lambdatasks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madaradayada/LambdaTasks.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madaradayada/LambdaTasks/issues"
+  },
+  "homepage": "https://github.com/madaradayada/LambdaTasks#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "inquirer": "^8.2.4",
+    "node-telegram-bot-api": "^0.59.0",
+    "nodemon": "^2.0.19",
+    "statuses": "^2.0.1"
+  }
+}
