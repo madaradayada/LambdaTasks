@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const readline = require("readline");
 
 const FILE_NAME = "data.txt";
 
@@ -35,14 +36,29 @@ async function main() {
       },
     ]);
 
-    const search = fs.readFileSync(FILE_NAME);
-    const searchParse = JSON.parse(search);
+    try {
+      const jsonString = fs.readFileSync(FILE_NAME, "utf8");
+      const customer = JSON.parse(jsonString);
+      console.log(customer);
+    } catch (err) {
+      console.log(err);
+    }
+
+    // const search = fs.readFileSync(FILE_NAME, { encoding: "utf8", flag: "r" });
+
+    // const rl = readline.createInterface({
+    //   input: fs.createReadStream(FILE_NAME),
+    // });
+    // rl.on("line", function (line) {
+    //   console.log("Line from file:", line);
+    // });
+    // const searchParse = JSON.parse(rl.input);
     // const searchArray = Object.entries(searchParse);
     // const filterSearch = searchArray.filter(
     //   (searc) => searc.name === searchUser
     // );
-    // console.log(filterSearch);
-    console.log(searchParse);
+    // console.log(search);
+    // console.log(search);
   }
 
   async function insertUser() {
