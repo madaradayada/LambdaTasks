@@ -16,18 +16,6 @@ async function main() {
   }
 
   async function findUser() {
-    // TODO: To be continued...
-    /**
-     * Ask user an input: promisifyInquirer(...);
-     *
-     * Get data from 'data.txt': fs.readWileSync(FILE_NAME);
-     * Read line by line; JSON.parse each line; push to an array
-     *
-     * ??? Filter data with input
-     *
-     * Show result
-     */
-
     const searchUser = await promisifyInquirer([
       {
         type: "input",
@@ -36,29 +24,34 @@ async function main() {
       },
     ]);
 
-    try {
-      const jsonString = fs.readFileSync(FILE_NAME, "utf8");
-      const customer = JSON.parse(jsonString);
-      console.log(customer);
-    } catch (err) {
-      console.log(err);
+
+
+    const rl = readline.createInterface({
+      input: fs.createReadStream(FILE_NAME),
+    });
+
+    let users = [];
+
+    for await (const line of rl) {
+      const user = JSON.parse(line);
+
+      users.push(user);
     }
 
-    // const search = fs.readFileSync(FILE_NAME, { encoding: "utf8", flag: "r" });
+    var search = searchUser.search;
+var result = users.filter(function(el){
+    for(var field in el){
+        if(el[field].toLowerCase().indexOf(search.toLowerCase()) > -1){
+            return true;//если нашли хотя бы одно поле содержащее искомую строку, оставляем объект
+        }
+    }
+    return false;
+});
 
-    // const rl = readline.createInterface({
-    //   input: fs.createReadStream(FILE_NAME),
-    // });
-    // rl.on("line", function (line) {
-    //   console.log("Line from file:", line);
-    // });
-    // const searchParse = JSON.parse(rl.input);
-    // const searchArray = Object.entries(searchParse);
-    // const filterSearch = searchArray.filter(
-    //   (searc) => searc.name === searchUser
-    // );
-    // console.log(search);
-    // console.log(search);
+console.log(result);
+    /**
+     * Filter/search on users array, print results.
+     */
   }
 
   async function insertUser() {
