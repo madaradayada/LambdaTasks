@@ -38,14 +38,18 @@ async function main() {
       users.push(user);
     }
 
-    var search = searchUser.search;
+//     var search = searchUser.search;
+// var result = users.filter(function(el){
+//     for(var field in el){
+//         if(el[field].toLowerCase().indexOf(search.toLowerCase()) > -1){
+//             return true;//если нашли хотя бы одно поле содержащее искомую строку, оставляем объект
+//         }
+//     }
+//     return false;
+// });
+var search = searchUser.search;
 var result = users.filter(function(el){
-    for(var field in el){
-        if(el[field].toLowerCase().indexOf(search.toLowerCase()) > -1){
-            return true;//если нашли хотя бы одно поле содержащее искомую строку, оставляем объект
-        }
-    }
-    return false;
+  return el.name.toLowerCase().indexOf(search.toLowerCase()) > -1;//fieldName - поле по которому нужно фильтровать
 });
 
 console.log(result);
