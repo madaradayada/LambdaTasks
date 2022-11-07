@@ -9,6 +9,7 @@
 /.pnp
 .pnp.js
 /tmpdif
+/Primitive_DB/node_modules
 
 # testing
 /coverage

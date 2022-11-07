@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const readline = require("readline");
+const FuzzySearch = require('fuzzy-search');
 
 const FILE_NAME = "data.txt";
 
@@ -24,8 +25,6 @@ async function main() {
       },
     ]);
 
-
-
     const rl = readline.createInterface({
       input: fs.createReadStream(FILE_NAME),
     });
@@ -34,28 +33,12 @@ async function main() {
 
     for await (const line of rl) {
       const user = JSON.parse(line);
-
       users.push(user);
     }
 
-//     var search = searchUser.search;
-// var result = users.filter(function(el){
-//     for(var field in el){
-//         if(el[field].toLowerCase().indexOf(search.toLowerCase()) > -1){
-//             return true;//если нашли хотя бы одно поле содержащее искомую строку, оставляем объект
-//         }
-//     }
-//     return false;
-// });
-var search = searchUser.search;
-var result = users.filter(function(el){
-  return el.name.toLowerCase().indexOf(search.toLowerCase()) > -1;//fieldName - поле по которому нужно фильтровать
-});
-
-console.log(result);
-    /**
-     * Filter/search on users array, print results.
-     */
+    const searcher = new FuzzySearch(users, ['name']);
+    const result = searcher.search(searchUser.search.toLowerCase());
+    console.log(result);
   }
 
   async function insertUser() {

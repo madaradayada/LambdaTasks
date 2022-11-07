@@ -20,6 +20,7 @@
   "homepage": "https://github.com/madaradayada/LambdaTasks#readme",
   "dependencies": {
     "fs": "^0.0.1-security",
+    "fuzzy-search": "^3.2.1",
     "inquirer": "^8.2.4",
     "nodemon": "^2.0.19",
     "statuses": "^2.0.1"
