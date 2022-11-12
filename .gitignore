@@ -10,6 +10,7 @@
 .pnp.js
 /tmpdif
 /Primitive_DB/node_modules
+/Telegram_Console_Sender/node_modules
 
 # testing
 /coverage
