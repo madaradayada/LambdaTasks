@@ -21,7 +21,7 @@ program
     "Send photo to Telegram Bot. Just drag and drop it console after sp-flag."
   )
   .alias("sp")
-  .argument("<patch>")
+  .argument("<path>")
   .action(function (input) {
     bot.sendPhoto(process.env.CHAT_ID, input).then(process.exit);
   });
