@@ -18,7 +18,7 @@ program
 program
   .command("send-photo")
   .description(
-    "Send photo to Telegram Bot. Just drag and drop it console after p-flag."
+    "Send photo to Telegram Bot. Just drag and drop it console after sp-flag."
   )
   .alias("sp")
   .argument("<patch>")
