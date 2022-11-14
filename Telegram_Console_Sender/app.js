@@ -1,6 +1,5 @@
 const program = require("commander");
 const TelegramBot = require("node-telegram-bot-api");
-const fs = require('fs');
 require('dotenv').config();
 
 const bot = new TelegramBot(process.env.TOKEN, { polling: true });
@@ -24,8 +23,8 @@ program
   .alias("p")
   .argument("<patch>")
   .action(function (input) {
-    bot.sendPhoto(process.env.CHAT_ID, fs.readFileSync(input).then(process.exit));
-  }); //need add function
+    bot.sendPhoto(process.env.CHAT_ID, input).then(process.exit);
+  });
 
 
 program.parse(process.argv);
