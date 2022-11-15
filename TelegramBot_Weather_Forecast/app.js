@@ -10,3 +10,9 @@ bot.on('message', (msg) => {
     const chatId = msg.chat.id;
     bot.sendMessage(chatId, "Hello")
 })
+
+function getCurrentWeather(cityName) {
+    url = "https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}";
+
+    text = `Weather in ${cityName}: 10` 
+}
