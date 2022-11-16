@@ -6,13 +6,16 @@ const bot = new TelegramBot(process.env.TOKEN, { polling: true });
 
 console.log("bot succesfully started...");
 
-bot.on('message', (msg) => {
+bot.on('message', msg => {
+    
     const chatId = msg.chat.id;
-    bot.sendMessage(chatId, "Hello")
+
+    bot.sendMessage(chatId, 'keyboard', {
+        reply_markup: {
+            keyboard: [
+                ['Forecast in Dnipro'],
+                ['open', 'close']
+            ]
+        }
+    })
 })
-
-function getCurrentWeather(cityName) {
-    url = "https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}";
-
-    text = `Weather in ${cityName}: 10` 
-}
